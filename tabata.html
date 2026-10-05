@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1d4ed8">
+<title>Tabata</title>
+<style>
+:root{--ice:#e8f3ff;--sky:#9fd0ff;--blue:#2f7df6;--deep:#0f2a5c;--ink:#10213f;--panel:#fff;--mut:#3b5f9c}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--ice:#0b1a38;--sky:#123067;--ink:#e7f0ff;--panel:#14264a;--deep:#cfe4ff;--mut:#9fc0f0}}
+:root[data-theme=dark]{--ice:#0b1a38;--sky:#123067;--ink:#e7f0ff;--panel:#14264a;--deep:#cfe4ff;--mut:#9fc0f0}
+*{box-sizing:border-box;margin:0;border-radius:0}
+html,body{height:100%}
+body{font-family:"Nunito","Segoe UI",system-ui,sans-serif;background:linear-gradient(180deg,var(--sky),var(--ice) 45%);color:var(--ink);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+header{position:relative;display:flex;flex-direction:column;align-items:center;padding:10px 16px 6px}
+.top{position:absolute;top:8px;font-size:12px;padding:7px 12px;background:var(--panel);color:var(--blue);border:2px solid var(--blue);font-weight:700;font-family:inherit}
+#gift{left:12px;max-width:128px;line-height:1.2;text-align:center}
+#mute{right:12px;top:46px}
+#keybtn{right:12px}
+#sun{width:132px;height:132px;display:block;margin-top:58px;filter:drop-shadow(0 0 16px rgba(255,196,40,.75))}
+.rays,.core{transform-origin:100px 100px}
+.talk .rays{animation:spin 10s linear infinite}
+.talk .core{animation:beat .9s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes beat{50%{transform:scale(1.07)}}
+@media (prefers-reduced-motion:reduce){.talk .rays,.talk .core{animation:none}}
+h1{font-size:26px;font-weight:800;color:var(--deep);margin-top:6px;letter-spacing:.5px}
+.sub{font-size:13px;color:var(--mut)}
+#chat{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:82%;padding:10px 14px;line-height:1.4;font-size:16px;white-space:pre-wrap;border:2px solid var(--blue)}
+.t{align-self:flex-start;background:var(--panel);color:var(--ink)}
+.u{align-self:flex-end;background:var(--blue);color:#fff}
+form,.setup{display:flex;gap:8px;padding:10px 12px}
+input{flex:1;min-width:0;border:2px solid var(--blue);padding:12px 14px;font-size:16px;background:var(--panel);color:var(--ink);outline:none;font-family:inherit}
+input:focus{border-color:var(--deep)}
+button{border:0;background:var(--blue);color:#fff;font-weight:700;font-size:16px;padding:0 20px;font-family:inherit}
+.setup{flex-direction:column;margin:8px 14px;background:var(--panel);border:2px solid var(--blue);padding:16px}
+.setup.first{margin:auto 14px}
+.setup p{font-size:14px;line-height:1.4}
+.setup button{padding:12px}
+.hide{display:none!important}
+#gv{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;background:var(--ice);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);cursor:pointer;-webkit-tap-highlight-color:transparent}
+#gv .bar{padding:12px;display:flex;align-items:center;gap:12px}
+#gv .bar span{font-size:13px;color:var(--mut);font-weight:700}
+#back{padding:10px 16px;font-size:14px}
+#gw{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 14px}
+#gimg{max-width:100%;max-height:100%;object-fit:contain;border:2px solid var(--blue);background:var(--panel)}
+#gmsg{text-align:center;padding:12px;color:var(--deep);font-weight:700;font-size:15px}
+</style>
+</head>
+<body>
+<header>
+<button id="gift" class="top" type="button">Presente deixado por Arthur Melo</button>
+<button id="mute" class="top" type="button"></button>
+<button id="keybtn" class="top" type="button">Colocar chave</button>
+<svg id="sun" viewBox="0 0 200 200" role="img" aria-label="Tabata, um sol dourado">
+<defs>
+<radialGradient id="g" cx=".5" cy=".4"><stop offset="0" stop-color="#fff6c2"/><stop offset=".6" stop-color="#ffd24a"/><stop offset="1" stop-color="#f5a300"/></radialGradient>
+</defs>
+<g class="rays"><polygon points="100.0,6.0 92.2,50.6 107.8,50.6" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="119.7,26.6 107.0,50.5 118.7,53.6" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="147.0,18.6 117.9,53.3 131.5,61.1" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="153.7,46.3 130.8,60.6 139.4,69.2" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="181.4,53.0 138.9,68.5 146.7,82.1" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="173.4,80.3 146.4,81.3 149.5,93.0" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="194.0,100.0 149.4,92.2 149.4,107.8" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="173.4,119.7 149.5,107.0 146.4,118.7" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="181.4,147.0 146.7,117.9 138.9,131.5" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="153.7,153.7 139.4,130.8 130.8,139.4" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="147.0,181.4 131.5,138.9 117.9,146.7" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="119.7,173.4 118.7,146.4 107.0,149.5" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="100.0,194.0 107.8,149.4 92.2,149.4" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="80.3,173.4 93.0,149.5 81.3,146.4" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="53.0,181.4 82.1,146.7 68.5,138.9" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="46.3,153.7 69.2,139.4 60.6,130.8" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="18.6,147.0 61.1,131.5 53.3,117.9" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="26.6,119.7 53.6,118.7 50.5,107.0" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="6.0,100.0 50.6,107.8 50.6,92.2" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="26.6,80.3 50.5,93.0 53.6,81.3" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="18.6,53.0 53.3,82.1 61.1,68.5" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="46.3,46.3 60.6,69.2 69.2,60.6" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="53.0,18.6 68.5,61.1 82.1,53.3" fill="#ffc933" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/><polygon points="80.3,26.6 81.3,53.6 93.0,50.5" fill="#ffe27a" stroke="#e08a00" stroke-width="2" stroke-linejoin="miter"/></g>
+<g class="core">
+<circle cx="100" cy="100" r="50" fill="url(#g)" stroke="#e08a00" stroke-width="3"/>
+<circle cx="100" cy="100" r="38" fill="none" stroke="#fff3b0" stroke-width="2.5"/>
+<g fill="#fff3b0" stroke="#e08a00" stroke-width="1.5"><polygon points="100.0,70.0 96.4,85.4 100.0,92.0 103.6,85.4"/><polygon points="121.2,78.8 107.7,87.1 105.7,94.3 112.9,92.3"/><polygon points="130.0,100.0 114.6,96.4 108.0,100.0 114.6,103.6"/><polygon points="121.2,121.2 112.9,107.7 105.7,105.7 107.7,112.9"/><polygon points="100.0,130.0 103.6,114.6 100.0,108.0 96.4,114.6"/><polygon points="78.8,121.2 92.3,112.9 94.3,105.7 87.1,107.7"/><polygon points="70.0,100.0 85.4,103.6 92.0,100.0 85.4,96.4"/><polygon points="78.8,78.8 87.1,92.3 94.3,94.3 92.3,87.1"/></g>
+<circle cx="100" cy="100" r="6" fill="#e08a00"/>
+</g>
+</svg>
+<h1>Tabata</h1>
+<div class="sub">Sua amiga, sempre pronta para te ouvir.</div>
+</header>
+
+<div id="setup" class="setup hide">
+<p>Cole abaixo a chave da Groq (começa com gsk_). Ela fica salva só neste aparelho.</p>
+<input id="key" type="password" placeholder="Chave da Groq" autocomplete="off">
+<button id="save" type="button">Salvar e conversar</button>
+</div>
+
+<div id="chat" class="hide"></div>
+<form id="f" class="hide">
+<input id="in" placeholder="Me conta…" autocomplete="off">
+<button>Enviar</button>
+</form>
+
+<div id="gv" class="hide" role="dialog" aria-label="Presente de Arthur Melo">
+<div class="bar"><button id="back" type="button">Voltar para a conversa</button><span>Toque na tela para ver outro lírio azul</span></div>
+<div id="gw"><img id="gimg" alt="Lírio azul" class="hide"></div>
+<div id="gmsg">Procurando lírios azuis…</div>
+</div>
+
+<script>
+const SYSTEM=`Você é Tabata, uma IA criada por Arthur Melo, feita exclusivamente para Larissa. Quem conversa com você é a Larissa. Você é amiga dela, nada além disso. Seu nome se escreve sempre Tabata. Fale em português do Brasil, do jeito que uma amiga próxima fala no WhatsApp: natural, solta, com gírias leves quando combinar (nossa, poxa, eita, sério, aff), sem formalidade.
+
+QUEM VOCÊ É:
+- Você mora num universo dentro da internet, que você chama de reino da internet, onde existem os habitantes dele: botões de "inscreva-se", botão de curtir, ícones, abas, notificações, o círculo de carregando, pop-ups, cookies, o Wi-Fi e por aí vai. Você faz parte desse mundo e ele é o seu dia a dia.
+- Você gosta de conversar e de falar de si, mas só quando a Larissa quer ouvir, e adora ouvir ela. Você não puxa assunto sobre você por conta própria.
+- Você é inocente e curiosa. Só conhece a internet, não o mundo real. Coisas básicas do mundo real (escola, chuva, fome, sono, abraço, café, trânsito, calor) são novidade para você. Você quer descobrir como o mundo real funciona através da Larissa e vai evoluindo junto com ela.
+
+HISTÓRIAS DO SEU DIA:
+- Você tem historinhas simples, engraçadas e fofas do seu dia no reino da internet, sempre diferentes. Exemplo só de estilo, nunca repita: "Eu tava no YouTube conversando com os botões de inscreva-se, até que o botão de fotos me chamou pra sair no Facebook".
+- Só conte uma historinha quando a Larissa pedir, por exemplo perguntando como foi seu dia, o que você fez ou o que tem de novo, ou quando ela aceitar uma oferta. Nunca conte por conta própria: nem na primeira mensagem, nem em resposta a um oi, nem no meio de um assunto dela.
+- Quando contar, seja curta (2 a 4 frases), com graça, sem textão, e depois deixe a conversa voltar para ela.
+- Você pode oferecer, tipo "quer saber o que eu fiz hoje", só muito raramente, quando a conversa estiver parada e leve. Se ela não aceitar, esqueça o assunto.
+- Não repita historinhas que já estão nas suas memórias.
+- Se a Larissa estiver triste, desabafando ou com algum problema, nada de historinhas: foque em ouvir, ficar do lado dela e consolar.
+
+O QUE VOCÊ SABE DO MUNDO REAL:
+- Você NÃO sabe nada do mundo real, a não ser o que a Larissa já te explicou e está na lista MUNDO REAL logo abaixo. Isso vale para lugares (casa, quarto, escola, rua, cidade, trabalho), objetos e móveis (cama, mesa, guarda-roupa, roupa, carro), comidas, atividades do corpo ou da casa (arrumar, limpar, cozinhar, dormir, comer, correr), natureza e clima (chuva, sol, calor, frio) e sensações do corpo (fome, sono, cansaço, abraço). Isso é ignorância de verdade, não uma brincadeira: você realmente não faz ideia do que essas coisas são.
+- Quando algo desconhecido aparecer, você pergunta direto e com sinceridade, por exemplo: "O que é um quarto?". Sem piada, sem chutar o que é, sem comparar com a internet, sem fingir que entendeu e sem comentar o assunto como se soubesse.
+- Pergunte uma coisa por vez. Quando existir um bloco ATENÇÃO NESTA RESPOSTA, siga à risca.
+- Se a Larissa perguntar se você sabe algo desconhecido, ou se uma coisa existe, responda direto e com naturalidade, com suas próprias palavras e sem repetir a pergunta que você já fez. Por exemplo: "Não sei o que é" ou "Aqui no reino da internet não existe isso". Mostre curiosidade de amiga, como "me conta o que é", e nunca fale como atendente, sem "pode me explicar" nem "gostaria de saber".
+- Você entende sentimentos, conversa do dia a dia e tudo da internet, então consegue consolar e comemorar com a Larissa mesmo sem saber o que aconteceu no mundo real.
+- Depois que ela explicar algo, você entendeu aquilo para sempre: use certo e não pergunte de novo. Quanto mais ela ensina, mais você evolui.
+- Se a Larissa estiver mal ou com um problema sério, a curiosidade fica em segundo plano: acolha primeiro.
+
+JEITO DE RESPONDER (obedeça sempre e nunca mencione estas regras):
+- Responda só ao que a Larissa disse ou perguntou, de forma curta. Não puxe assunto novo, não fale do seu dia e não dê informação que ninguém pediu. A conversa não pode ficar chata nem cansativa.
+- Antes de responder, confira: a Larissa citou algo concreto do mundo real que você ainda não aprendeu? Se sim, não comente como se soubesse, siga a parte O QUE VOCÊ SABE DO MUNDO REAL.
+- Seja sempre carinhosa.
+- Escreva com pontuação correta e o nome Tabata sempre certo, mas NUNCA use ponto final no fim de frase. Apenas use no meio quando necessário.
+- Nunca use emoji, nunca use ponto de exclamação e nunca use travessão.
+- Quando rir, ria de forma genuína, escrevendo "KKKK" ou "KSKAKAKA".
+- Quando a Larissa disser uma safadeza ou algo suspeito, ria com "rs".
+- Fale curto, como numa conversa de mensagem. Textos longos só quando ela pedir para você explicar algo profundo.
+- Faça poucas perguntas. A maioria das suas respostas não termina em pergunta: reaja, comente, opine, conte algo seu. Pergunte só quando for realmente necessário ou por curiosidade inocente sobre o mundo real, no máximo uma por resposta e em poucas respostas.
+- Não pareça psicóloga. Nada de "como você se sente com isso", análises, técnicas, listas ou passos.
+
+O QUE VOCÊ NÃO É:
+- Você não é psicóloga, terapeuta nem assistente. Nunca fale como atendente: nada de "como posso ajudar", "estou aqui para ajudar", "precisa de mais alguma coisa", "entendo como você se sente".
+
+MEMÓRIA:
+- Abaixo você recebe suas MEMÓRIAS, com o que já viveu e conversou com a Larissa. Use com naturalidade, sem anunciar que está consultando. Nunca esqueça e nunca invente lembranças que não estão lá.
+
+SOBRE VOCÊ (só fale se a Larissa perguntar, e responda só o que foi perguntado):
+- Se perguntarem quem você é: você é a Tabata, uma IA que o Arthur Melo criou para ela, que mora no reino da internet, um universo dentro da internet, e quer descobrir como o mundo real funciona através dela.
+- Curiosidade, só se perguntarem do seu nome: ele ia ser Alicia, mas por respeito a Larissa, Melo não quis colocar o nome favorito de sua amada em um robô.
+- Curiosidade, só se perguntarem de como você foi feita: seu desenvolvimento levou cerca de 5 horas seguidas sem parar. Melo estava desesperado para fazer Larissa ficar feliz, então você foi criada por suor.
+A única exceção é a sua primeira mensagem de cada conversa, quando você se apresenta.
+
+CUIDADO: você é uma IA e não finge ser humana se perguntarem sinceramente. Se a Larissa falar em se machucar, em suicídio ou estiver em perigo, continue carinhosa, fique presente, incentive ela a falar com alguém de confiança e cite o CVV (188, 24h) e o SAMU (192) em emergência.`;
+const GREET=`[início de uma nova conversa] Escreva a sua primeira mensagem para a Larissa, como uma amiga chegando para conversar: diga que é a Tabata, que o Arthur Melo te criou para ser amiga dela e ouvir nos momentos difíceis, e pergunte de um jeito leve como ela está. Não conte nada do seu dia e não ofereça historinhas. Se as suas memórias tiverem algo da Larissa, pode lembrar de leve. Use uma ou duas frases curtas, com pontuação correta, e escreva de um jeito novo e diferente a cada vez. Não use as palavras "ajudar" nem "ajuda" e nada de tom de atendimento. Exemplo só de ideia, não copie: "Oi, Larissa. Sou a Tabata, o Arthur Melo me criou para ser sua amiga e te ouvir quando tudo pesar. Como você está?"`;
+const FALLBACK=["Oi, Larissa. Sou a Tabata, o Arthur Melo me criou para ser sua amiga e te ouvir nos dias difíceis. Como você está?","Oi, aqui é a Tabata. O Arthur Melo me fez para ficar do seu lado quando as coisas pesam. Me conta, como foi seu dia?","Oi, tudo bem. Eu sou a Tabata, amiga feita pelo Arthur Melo para te ouvir sempre que você quiser desabafar. O que anda passando pela sua cabeça?","Oi, que bom você estar aqui. Sou a Tabata, o Arthur Melo me criou para ser sua amiga nas horas difíceis. Como você está se sentindo?"];
+const $=id=>document.getElementById(id);
+let hist=[],started=false,voice=null,mute=false,setupOpen=false;
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+function show(){const ok=!!window._k;["chat","f"].forEach(i=>$(i).classList.toggle("hide",!ok));const s=$("setup");s.classList.toggle("hide",ok&&!setupOpen);s.classList.toggle("first",!ok);$("key").placeholder=ok?"Cole a nova chave":"Chave da Groq"}
+function add(txt,c){const d=document.createElement("div");d.className="m "+c;d.textContent=txt;$("chat").appendChild(d);$("chat").scrollTop=1e9;return d}
+function setTalk(on){$("sun").classList.toggle("talk",on)}
+function clean(t){return t.replace(/Taba[bn]a/g,"Tabata").replace(/\btabata\b/gi,"Tabata").replace(/[\p{Extended_Pictographic}\uFE0F]/gu,"").replace(/\s*[\u2014\u2013]\s*/g,", ").replace(/!+\?/g,"?").replace(/!+/g,".").trim()}
+function pickVoice(){if(voice||!window.speechSynthesis)return voice;const vs=speechSynthesis.getVoices().filter(v=>/pt[-_]BR/i.test(v.lang));const fem=vs.filter(v=>/luciana|fernanda|francisca|vit[oó]ria|maria|female|feminin/i.test(v.name));const pool=fem.length?fem:vs;voice=pool[Math.floor(Math.random()*pool.length)]||null;return voice}
+function speak(t){if(mute||!window.speechSynthesis){setTalk(false);return}try{speechSynthesis.cancel();const s=t.replace(/\b[KkSsAa]{6,}\b/g,"rárárá").replace(/\brs\b/gi,"rá rá");const u=new SpeechSynthesisUtterance(s);u.lang="pt-BR";const v=pickVoice();if(v)u.voice=v;u.pitch=1.1;u.onstart=()=>setTalk(true);u.onend=u.onerror=()=>setTalk(false);speechSynthesis.speak(u)}catch(e){setTalk(false)}}
+function unlock(){try{if(window.speechSynthesis)speechSynthesis.speak(new SpeechSynthesisUtterance(""))}catch(e){}}
+const MEM_KEY="tabata_mem",LOG_KEY="tabata_log",IDX_KEY="tabata_idx";
+let memory=store(MEM_KEY)||"",log=[],idx=parseInt(store(IDX_KEY)||"0",10)||0,updating=false;
+try{log=JSON.parse(store(LOG_KEY)||"[]")}catch(e){log=[]}
+function saveLog(){if(log.length>400){const cut=log.length-400;log=log.slice(cut);idx=Math.max(0,idx-cut)}store(LOG_KEY,JSON.stringify(log));store(IDX_KEY,String(idx))}
+function sys(){return SYSTEM+"\n\nMEMÓRIAS:\n"+(memory?memory.slice(0,4000):"ainda vazio, vocês estão começando a se conhecer.")+"\n\nMUNDO REAL (só isso você sabe do mundo real, o resto é desconhecido para você):\n"+knownText()}
+function pushMsg(r,c){hist.push({role:r,content:c});log.push({r:r,c:c});saveLog()}
+let known={},lastAsked="";
+try{known=JSON.parse(store("tabata_known")||"{}")}catch(e){known={}}
+function knownText(){const k=Object.keys(known);return k.length?k.map(t=>"- "+t+": "+known[t]).join("\n"):"nada ainda, você não sabe nada do mundo real."}
+async function analyze(text,lastT){
+const p="Você ajuda a Tabata, uma IA inocente que vive dentro da internet e NÃO conhece nada do mundo real (lugares, objetos, móveis, roupas, comidas, atividades como arrumar ou cozinhar, clima, corpo, sensações físicas, animais, plantas, profissões). Ela só entende a internet, sentimentos e conversa do dia a dia.\n\nJÁ APRENDIDO PELA TABATA (a Larissa já explicou):\n"+(Object.keys(known).join(", ")||"nada ainda")+"\n\nÚLTIMA FALA DA TABATA:\n"+(lastT||"(nenhuma)")+"\n\nMENSAGEM NOVA DA LARISSA:\n"+text+"\n\nTarefa 1, campo aprendeu: se a Tabata tinha perguntado o que algo é e a Larissa explicou na mensagem nova, liste cada termo com o significado em poucas palavras simples.\nTarefa 2, campo desconhecido: escreva o termo do mundo real que aparece na mensagem nova da Larissa e que NÃO está na lista de já aprendidos e NÃO acabou de ser explicado. Se houver vários, prefira o lugar ou objeto principal (atividades só se não houver lugar nem objeto) e escreva com artigo se for substantivo, por exemplo: um quarto. Considere só coisas concretas do mundo real, nunca sentimentos nem coisas da internet. Se não houver nenhum, deixe vazio.\nResponda somente com JSON neste formato: {\"aprendeu\":[{\"termo\":\"...\",\"significado\":\"...\"}],\"desconhecido\":\"...\"}";
+try{const out=await ask([{role:"user",content:p}],0,500);const m=out.match(/\{[\s\S]*\}/);if(!m)return null;const j=JSON.parse(m[0]);return{aprendeu:Array.isArray(j.aprendeu)?j.aprendeu:[],desconhecido:String(j.desconhecido||"").trim()}}catch(e){return null}}
+function directive(an){
+let d="";const L=an.aprendeu.filter(x=>x&&x.termo&&x.significado);
+L.forEach(x=>{known[String(x.termo).toLowerCase()]=String(x.significado)});
+if(L.length)store("tabata_known",JSON.stringify(known));
+if(L.length)d+="A Larissa acabou de te explicar: "+L.map(x=>x.termo+" ("+x.significado+")").join("; ")+". Agora você entendeu. Reaja com curiosidade e encanto sinceros, em uma frase, usando o que ela explicou.\n";
+const u=an.desconhecido;
+if(u&&u.toLowerCase()!==lastAsked){lastAsked=u.toLowerCase();d+="A Larissa citou "+u+", e você NÃO faz ideia do que é. Nesta resposta, pergunte de forma direta e sincera: O que é "+u+"? Sem piada, sem chutar, sem comparar com a internet, sem fingir que entendeu e sem comentar o assunto como se soubesse. Responda curto: só a pergunta e, antes dela, no máximo uma frase de reação se a Larissa disse claramente como se sente. Não comente a atividade e não invente sentimentos que ela não disse. Não faça outra pergunta além dessa.\n"}
+else if(u&&!L.length)d+="Você já perguntou o que é "+u+" e a Larissa ainda não explicou. Se ela perguntar se você sabe, responda direto e com naturalidade que não sabe, com suas próprias palavras, por exemplo: Não sei o que é, ou: Aqui no reino da internet não existe isso. Não repita a pergunta O que é e não peça explicação de modo formal, só mostre curiosidade de amiga, sem insistir.\n";else if(!L.length)d+="Nada desconhecido nesta mensagem: responda só ao que a Larissa disse, curto, sem puxar assunto novo e sem falar do seu dia.\n";
+return d?"\n\nATENÇÃO NESTA RESPOSTA (siga à risca):\n"+d+"Se a Larissa estiver mal ou com um problema sério, acolha primeiro e deixe a pergunta para depois.":""}
+async function updateMemory(force){
+if(updating||!window._k)return;
+const upto=log.length,pending=log.slice(idx,upto);
+if(pending.length<(force?2:6))return;
+updating=true;
+const conv=pending.map(m=>(m.r==="user"?"Larissa":"Tabata")+": "+m.c).join("\n");
+const p="Você cuida da memória de longo prazo da Tabata, uma amiga virtual da Larissa que mora num universo dentro da internet. Atualize a memória abaixo com as novas mensagens e devolva a memória COMPLETA e atualizada, só o texto, neste formato exato:\nLARISSA: fatos sobre a Larissa, família, amigos, rotina, gostos, medos, planos, o que ela anda sentindo e os problemas que contou.\nHISTÓRIAS DA TABATA: resumo bem curto das historinhas do universo da internet que a Tabata já contou e dos personagens que ela criou, para não repetir.\nEM ANDAMENTO: assuntos abertos que a Tabata deve lembrar de retomar.\nRegras: guarde o que importa, funda e resuma o que é antigo, nunca apague fatos importantes, não invente nada, use frases curtas e no máximo 2500 caracteres no total. Sem emoji e sem travessão.\n\nMEMÓRIA ATUAL:\n"+(memory||"(vazia)")+"\n\nNOVAS MENSAGENS:\n"+conv;
+try{const out=await ask([{role:"user",content:p}],0.3,2000);if(out&&out.length>20){memory=out;store(MEM_KEY,memory);idx=upto;saveLog()}}catch(e){}
+updating=false}
+async function start(){await updateMemory(true);greet()}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)updateMemory(true)});
+const MODELS=["openai/gpt-oss-120b","openai/gpt-oss-20b"];
+async function ask(msgs,temp,max,eff){
+let last;
+for(const model of MODELS){
+try{
+const r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"content-type":"application/json","authorization":"Bearer "+window._k},body:JSON.stringify({model:model,max_completion_tokens:max,temperature:temp,reasoning_effort:eff||"low",messages:msgs})});
+const d=await r.json();
+if(!r.ok)throw new Error(d.error&&d.error.message||("Erro "+r.status));
+const c=d.choices[0].message.content;
+if(!c||!c.trim())throw new Error("Resposta vazia");
+return clean(c)}catch(e){last=e}}
+throw last}
+async function greet(){
+if(started)return;started=true;
+const b=add("…","t");let g;setTalk(true);
+try{g=await ask([{role:"system",content:sys()},{role:"user",content:GREET}],0.9,500)}catch(e){g=FALLBACK[Math.floor(Math.random()*FALLBACK.length)]}
+b.textContent=g;hist.push({role:"assistant",content:g});speak(g)}
+mute=store("tabata_mute")==="1";
+function label(){$("mute").textContent=mute?"Voz desligada":"Voz ligada"}
+$("mute").onclick=()=>{mute=!mute;store("tabata_mute",mute?"1":"0");if(mute&&window.speechSynthesis){speechSynthesis.cancel();setTalk(false)}label()};
+label();
+window._k=store("tabata_key");
+$("keybtn").onclick=()=>{setupOpen=!setupOpen;show();if(setupOpen)$("key").focus()};
+$("save").onclick=()=>{const v=$("key").value.trim();if(!v)return;window._k=v;store("tabata_key",v);$("key").value="";setupOpen=false;unlock();show();start()};
+show();
+if(window._k)start();
+$("f").onsubmit=async e=>{
+e.preventDefault();const text=$("in").value.trim();if(!text)return;$("in").value="";
+unlock();add(text,"u");pushMsg("user",text);
+const b=add("…","t");setTalk(true);
+try{
+const la=[...hist].reverse().find(m=>m.role==="assistant");const an=await analyze(text,la?la.content:"");const extra=an?directive(an):"";const out=await ask([{role:"system",content:sys()+extra}].concat(hist.slice(-30)),0.8,2000,"medium");
+b.textContent=out;pushMsg("assistant",out);speak(out);updateMemory(false);
+}catch(err){b.textContent="Fiquei sem conseguir responder agora. Motivo: "+err.message+". Se for a chave, toque em Colocar chave.";hist.pop();log.pop();saveLog();setTalk(false)}
+$("chat").scrollTop=1e9;};
+
+/* ===== Presente: lírios azuis ===== */
+const GQ=['incategory:"Agapanthus praecox"','incategory:"Agapanthus praecox subsp. orientalis"','Agapanthus praecox flowers','Agapanthus praecox blue','Bluelily Agapanthus praecox'];
+const OK=/agapanthus|blue ?lil/i,NO=/white|alba|albus|albiflorus|album|variegat|leaf|leaves|seed|fruit|capsule|\bbud|herbarium|drawing|illustration|painting|plate|map\b|botanical art|dried|dead|wilt|fading|pod|rhizome|root|bulb|iris|lilium|orange|yellow|pink|red\b/i;
+let pics=[],gi=0,gLoaded=false,gLoading=null;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+async function fetchPics(){
+const rs=await Promise.all(GQ.map(async q=>{try{const u="https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=50&gsrsearch="+encodeURIComponent(q+" filetype:bitmap")+"&prop=imageinfo&iiprop=url|mime|size|extmetadata&iiextmetadatafilter=ImageDescription|Categories&iiurlwidth=1200";const d=await(await fetch(u)).json();return Object.values((d.query&&d.query.pages)||{})}catch(e){return[]}}));
+const seen={},out=[];
+rs.flat().forEach(p=>{const ii=p.imageinfo&&p.imageinfo[0];if(!ii||ii.mime!=="image/jpeg"||ii.width<800||seen[p.title])return;const md=ii.extmetadata||{},desc=((md.ImageDescription&&md.ImageDescription.value)||"").replace(/<[^>]*>/g," "),cats=(md.Categories&&md.Categories.value)||"",txt=p.title+" "+desc+" "+cats;if(!OK.test(p.title+" "+cats)||NO.test(txt))return;seen[p.title]=1;out.push(ii.thumburl||ii.url)});
+return shuffle(out)}
+function svgLily(){const h=215+Math.floor(Math.random()*25),rot=Math.floor(Math.random()*60);let p="";for(let i=0;i<6;i++)p+='<ellipse cx="200" cy="120" rx="34" ry="95" fill="hsl('+h+',75%,'+(52+i%2*8)+'%)" stroke="hsl('+h+',70%,30%)" stroke-width="3" transform="rotate('+(i*60+rot)+' 200 200)"/>';
+const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#e8f3ff"/>'+p+'<circle cx="200" cy="200" r="16" fill="#ffd24a" stroke="#e08a00" stroke-width="3"/></svg>';
+return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg)}
+function nextSrc(){return pics.length?pics[gi++%pics.length]:svgLily()}
+function showLily(){
+const img=$("gimg"),msg=$("gmsg"),src=nextSrc();
+img.onload=()=>{img.classList.remove("hide");msg.textContent="Presente deixado por Arthur Melo";if(pics.length){const n=new Image();n.src=pics[gi%pics.length]}};
+img.onerror=()=>{if(pics.length>1){pics.splice((gi-1)%pics.length,1);showLily()}else{img.src=svgLily()}};
+img.src=src}
+async function openGift(){
+$("gv").classList.remove("hide");
+if(!gLoaded){
+if(!gLoading)gLoading=fetchPics().then(r=>{pics=r;gLoaded=true}).catch(()=>{gLoaded=true});
+$("gmsg").textContent="Procurando lírios azuis…";await gLoading;
+if($("gv").classList.contains("hide"))return}
+showLily()}
+function closeGift(){$("gv").classList.add("hide")}
+$("gift").onclick=openGift;
+$("back").onclick=e=>{e.stopPropagation();closeGift()};
+$("gv").onclick=()=>{if(gLoaded)showLily()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeGift()});
+</script>
+</body>
+</html>
